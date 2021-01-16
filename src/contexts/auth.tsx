@@ -32,19 +32,21 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    function loadStorageData(){
     const storagedUser = localStorage.getItem("@r-auth:user");
     const storagedToken = localStorage.getItem("@r-auth:token");
+    const user ={
+      "name": JSON.stringify(storagedUser),
+      "email": ' ',
+    }
     console.log(storagedUser);
     console.log(storagedToken);
     if (storagedUser && storagedToken) {
-      setUser(JSON.parse(storagedUser));
+      setUser(user);
       api.defaults.headers.authorization = `token ${storagedToken}`;
     }else{
       setLoading(false);
     }
-  }
-  loadStorageData();
+
   }, []);
 
   async function signIn({ password, username }: Credentials) {
